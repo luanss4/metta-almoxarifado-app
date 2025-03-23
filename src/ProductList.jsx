@@ -8,6 +8,7 @@ const ProductList = () => {
     const carregarProdutos = async () => {
         try {
             const produtosData = await getProdutos();
+            console.log("Dados retornados pela API:", produtosData); // Mostre a resposta no console
             setProdutos(produtosData);
         } catch (error) {
             console.error("Erro ao carregar produtos:", error);
@@ -15,6 +16,7 @@ const ProductList = () => {
             setLoading(false);
         }
     };
+
 
     useEffect(() => {
         carregarProdutos();
@@ -48,18 +50,25 @@ const ProductList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {produtos.map((produto) => (
-                    <tr key={produto.id}>
-                        <td>{produto.id}</td>
-                        <td>{produto.nome}</td>
-                        <td>R$ {produto.preco.toFixed(2)}</td>
-                        <td>
-                            <button onClick={() => handleDelete(produto.id)}>
-                                Excluir
-                            </button>
-                        </td>
+                {Array.isArray(produtos) && produtos.length > 0 ? (
+                    produtos.map((produto) => (
+                        <tr key={produto.id}>
+                            <td>{produto.id}</td>
+                            <td>{produto.nome}</td>
+                            <td>R$ {produto.preco.toFixed(2)}</td>
+                            <td>
+                                <button onClick={() => handleDelete(produto.id)}>
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="4">Nenhum produto encontrado</td>
                     </tr>
-                ))}
+                )}
+
                 </tbody>
             </table>
         </div>

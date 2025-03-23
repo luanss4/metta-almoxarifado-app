@@ -17,7 +17,7 @@ const api = axios.create({
 export const getProdutos = async () => {
     try {
         const response = await axios.get("/api/produtos");
-        return response.data;
+        return response.data  || [];
     } catch (error) {
         console.error("Erro ao obter os produtos:", error);
         throw error;
